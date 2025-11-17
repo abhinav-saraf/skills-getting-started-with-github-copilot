@@ -4,6 +4,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
+  function renderActivities(activities) {
+    const activitiesList = document.getElementById("activities-list");
+    activitiesList.innerHTML = "";
+
+    Object.entries(activities).forEach(([name, details]) => {
+      const card = document.createElement("div");
+      card.className = "activity-card";
+
+      card.innerHTML = `
+        <h4>${name}</h4>
+        <p>${details.description}</p>
+        <p><strong>Schedule:</strong> ${details.schedule}</p>
+        <p><strong>Max Participants:</strong> ${details.max_participants}</p>
+        <div class="participants-section">
+          <strong>Participants:</strong>
+          <ul class="participants-list">
+            ${details.participants.map(email => `<li>${email}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+
+      activitiesList.appendChild(card);
+    });
+  }
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
